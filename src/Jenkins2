@@ -1,0 +1,16 @@
+pipeline {
+    agent any
+
+    tools {
+        maven 'Maven'  // Ensure 'Maven' matches the tool name in Jenkins' global tool configuration
+    }
+
+    stages {
+        stage("Test") {
+            steps {
+                // Run tests
+                sh "mvn test"
+            }
+        }
+    }
+}
