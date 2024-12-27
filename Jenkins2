@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven'  // Ensure 'Maven' matches the tool name in Jenkins' global tool configuration
+        maven '3.6.3'  // Ensure 'Maven' matches the tool name in Jenkins' global tool configuration
     }
 
     stages {
