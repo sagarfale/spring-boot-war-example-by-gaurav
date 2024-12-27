@@ -1,32 +1,32 @@
 pipeline {
     agent { label 'agent1' }  // Run the pipeline on agent1
-     tools {
-        maven '3.6.3' 
-        }
-    stages {
-        stage("Test"){
-            steps{
-                // mvn test
-                sh "mvn test"
-              
-            }
-            
-        }
-        stage("Build"){
-            steps{
-                sh "mvn package"
-                
-            }
-            
-        }
-        stage("Deploy on Test"){
-            steps{
-                // deploy on container -> plugin
-                deploy adapters: [tomcat9(credentialsId: 'tomcat9', path: '', url: 'http://34.173.189.35:8090')], contextPath: '/app', war: '**/*.war'
-              
-            }
-            
-        }
+    
+    tools {
+        maven '3.6.3'  // Use Maven 3.6.3 defined in Jenkins global tools configuration
     }
 
+    stages {
+        stage("Test") {
+            steps {
+                // Run tests using Maven
+                sh "mvn test"
+            }
+        }
+
+        stage("Build") {
+            steps {
+                // Build the project using Maven
+                sh "mvn package"
+            }
+        }
+
+        stage("Deploy on Test") {
+            steps {
+                // Deploy WAR file to Tomcat using the credentials and URL
+                deploy adapters: [
+                    tomcat9(credentialsId: 'tomcat9', path: '', url: 'http://34.173.189.35:8090/manager')
+                ], contextPath: '/app', war: '**/*.war'  // Adjust the WAR file path if needed
+            }
+        }
+    }
 }
