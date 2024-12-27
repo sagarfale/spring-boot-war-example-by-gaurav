@@ -1,0 +1,32 @@
+pipeline {
+    agent { label 'agent1' }  // Run the pipeline on agent1
+     tools {
+        maven '3.6.3' 
+        }
+    stages {
+        stage("Test"){
+            steps{
+                // mvn test
+                sh "mvn test"
+              
+            }
+            
+        }
+        stage("Build"){
+            steps{
+                sh "mvn package"
+                
+            }
+            
+        }
+        stage("Deploy on Test"){
+            steps{
+                // deploy on container -> plugin
+                deploy adapters: [tomcat9(credentialsId: 'tomcatserverdetails1', path: '', url: 'http://34.173.189.35:8090')], contextPath: '/app', war: '**/*.war'
+              
+            }
+            
+        }
+    }
+
+}
